@@ -1,0 +1,9 @@
+<p>rooms works!</p>
+<h1>Welcome to {{hotelName}}</h1>
+<div [hidden] = "hideRooms">
+    Number of Room :
+    <div [innerText]="numberOfRoom"></div>
+    <!-- document.getElementByid('numberOfRoom').innerText = numberOfRoom; -->
+</div>
+
+<button (click)="toggle()">Toggle</button>
