@@ -1,2 +1,16 @@
 <h1>Hello </h1>
-<digiplus-app-rooms></digiplus-app-rooms>
+<!-- <digiplus-app-rooms></digiplus-app-rooms> -->
+<div [ngSwitch]="role">
+
+    <div *ngSwitchCase="'User'">
+        Welcome User !
+    </div>
+    <div *ngSwitchCase="'Admin'">
+        Welcome Admin ...
+        <digiplus-app-rooms></digiplus-app-rooms>
+    </div>
+    <div *ngSwitchDefault>
+        you are not authorized to view this page ...
+    </div>
+
+</div>
