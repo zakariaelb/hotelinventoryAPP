@@ -10,6 +10,9 @@ export class RoomsComponent {
   hotelName = 'Hotel Hilton';
   numberOfRoom = '20';
   hideRooms = false;
+
+  selectedRoom!: RoomList;
+
   rooms: Room = {
     availableRooms: 15,
     boockedRooms: 5,
@@ -24,6 +27,7 @@ export class RoomsComponent {
       photos: 'https://images.unsplash.com',
       checkinTime: new Date('11-Nov-2021'),
       checkoutTime: new Date('12-Nov-2021'),
+      rating: 4.90,
     },
     {
       roomNumber: 2,
@@ -33,6 +37,7 @@ export class RoomsComponent {
       photos: 'https://images.unsplash.com',
       checkinTime: new Date('11-Nov-2021'),
       checkoutTime: new Date('12-Nov-2021'),
+      rating: 4.99,
     },
     {
       roomNumber: 3,
@@ -42,11 +47,16 @@ export class RoomsComponent {
       photos: 'https://images.unsplash.com',
       checkinTime: new Date('11-Nov-2021'),
       checkoutTime: new Date('12-Nov-2021'),
+      rating: 4.09,
     },
   ]
 
   toggle() {
     this.hideRooms = !this.hideRooms;
+  }
+  selectRoom(room: RoomList) {
+    //console.log(room);
+    this.selectedRoom = room;
   }
 
 }
