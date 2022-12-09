@@ -1,5 +1,14 @@
 <p>rooms works!</p>
-<h1>Welcome to {{hotelName}}</h1>
+<!-- <h1>Welcome to {{hotelName}}</h1> -->
+<digiplus-app-header></digiplus-app-header>
+
+<!-- Test multiple header components -->
+
+<digiplus-app-header></digiplus-app-header>
+<digiplus-app-header></digiplus-app-header>
+<digiplus-app-header></digiplus-app-header>
+
+
 <div [hidden]="hideRooms">
     Number of Room :
     <div [ngStyle]="{'color' : rooms.availableRooms? 'green' :'red'}" [innerText]="numberOfRoom"></div>
@@ -16,8 +25,13 @@
 <div *ngIf="selectedRoom">
     {{ selectedRoom |json}}
 </div>
+<div>
+    <button (click)="addRoom()">Add</button>
+</div>
+
 <div *ngIf="rooms.availableRooms > 0">
-    <digiplus-app-rooms-list [rooms]="roomList" (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
+
+    <digiplus-app-rooms-list [rooms]="roomList" [title]="title" (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
 </div>
 
 <button (click)="toggle()">Toggle</button>
