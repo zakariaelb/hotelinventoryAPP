@@ -11,8 +11,8 @@
 
 <div [hidden]="hideRooms">
     Number of Room :
-    <div [ngStyle]="{'color' : rooms.availableRooms? 'green' :'red'}" [innerText]="numberOfRoom"></div>
-
+    <div [ngStyle]="{'color' : rooms.availableRooms ? 'green' :'red'}" [innerText]="numberOfRoom">
+    </div>
     <!-- document.getElementByid('numberOfRoom').innerText = numberOfRoom; -->
 </div>
 
@@ -30,8 +30,10 @@
 </div>
 
 <div *ngIf="rooms.availableRooms > 0">
-
-    <digiplus-app-rooms-list [rooms]="roomList" [title]="title" (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
+    
+<!-- <div *ngIf="hideRooms"> -->
+    <digiplus-app-rooms-list [rooms]="roomList" [title]="title" 
+    (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
 </div>
 
 <button (click)="toggle()">Toggle</button>

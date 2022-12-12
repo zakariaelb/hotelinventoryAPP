@@ -1,8 +1,9 @@
-import { AfterContentChecked, AfterViewInit, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DoCheck } from '@angular/core';
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { Room, RoomList } from './rooms';
+import { RoomsService } from './services/rooms.service';
 
 @Component({
   selector: 'digiplus-app-rooms',
@@ -10,6 +11,7 @@ import { Room, RoomList } from './rooms';
   styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterContentChecked {
+
 
   hotelName = 'Hotel Hilton';
   numberOfRoom = 20;
@@ -30,42 +32,50 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
 
   @ViewChildren(HeaderComponent) headerChildrenComponent!: QueryList<HeaderComponent>;
-  ngOnInit(): void {
-      //console.log(this.headerComponent);
-    this.roomList = [
-      {
-        roomNumber: 1,
-        roomType: 'Deluxe Room',
-        amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-        price: 500,
-        photos: 'https://images.unsplash.com',
-        checkinTime: new Date('11-Nov-2021'),
-        checkoutTime: new Date('12-Nov-2021'),
-        rating: 4.90,
-      },
-      {
-        roomNumber: 2,
-        roomType: 'Deluxe Room',
-        amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-        price: 1000,
-        photos: 'https://images.unsplash.com',
-        checkinTime: new Date('11-Nov-2021'),
-        checkoutTime: new Date('12-Nov-2021'),
-        rating: 4.99,
-      },
-      {
-        roomNumber: 3,
-        roomType: 'Private Suite',
-        amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-        price: 15000,
-        photos: 'https://images.unsplash.com',
-        checkinTime: new Date('11-Nov-2021'),
-        checkoutTime: new Date('12-Nov-2021'),
-        rating: 4.09,
-      },
-    ]
-  }
 
+  // not do that roomService = new RoomsService();
+
+  constructor(private roomService: RoomsService){ }
+  ngOnInit(): void {
+
+      //console.log(this.headerComponent);
+    // this.roomList = [
+    //   {
+    //     roomNumber: 1,
+    //     roomType: 'Deluxe Room',
+    //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+    //     price: 500,
+    //     photos: 'https://images.unsplash.com',
+    //     checkinTime: new Date('11-Nov-2021'),
+    //     checkoutTime: new Date('12-Nov-2021'),
+    //     rating: 4.90,
+    //   },
+    //   {
+    //     roomNumber: 2,
+    //     roomType: 'Deluxe Room',
+    //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+    //     price: 1000,
+    //     photos: 'https://images.unsplash.com',
+    //     checkinTime: new Date('11-Nov-2021'),
+    //     checkoutTime: new Date('12-Nov-2021'),
+    //     rating: 4.99,
+    //   },
+    //   {
+    //     roomNumber: 3,
+    //     roomType: 'Private Suite',
+    //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+    //     price: 15000,
+    //     photos: 'https://images.unsplash.com',
+    //     checkinTime: new Date('11-Nov-2021'),
+    //     checkoutTime: new Date('12-Nov-2021'),
+    //     rating: 4.09,
+    //   },
+    // ];
+
+    
+    //get data from service instant of ts file
+    this.roomList = this.roomService.getRooms();
+  }
   ngDoCheck(): void {
     console.log('Do check is called ');
   }
@@ -107,7 +117,5 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
     //keep the existing data and add new record 
     this.roomList = [...this.roomList, room];
   }
-
-
 
 }
