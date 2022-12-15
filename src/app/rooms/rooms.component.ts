@@ -1,6 +1,7 @@
 import { AfterContentChecked, AfterViewInit, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DoCheck } from '@angular/core';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
 import { Room, RoomList } from './rooms';
 import { RoomsService } from './services/rooms.service';
@@ -28,6 +29,14 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   title = 'room list 1';
   roomList: RoomList[] = [];
 
+  stream = new Observable(observer => {
+      observer.next('user 1');
+      observer.next('user 2');
+      observer.next('user 3');
+      observer.complete();
+      // observer.error("error");
+  });
+
   //@ViewChild(HeaderComponent, {static: true} ) headerComponent!: HeaderComponent;
   @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
 
@@ -38,6 +47,19 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   constructor(private roomService: RoomsService){ }
   ngOnInit(): void {
 
+    this.stream.subscribe({
+        next: (value) => console.log(value),
+        complete: () => console.log('Stream is completed ... '),
+        error: (err) => console.log(err),
+        
+    }
+      );
+    this.stream.subscribe((data) => console.log(data));
+
+    // console.log(this.roomService.getRooms());
+    this.roomService.getRooms.subscribe(rooms =>{
+      this.roomList = rooms;
+    });
       //console.log(this.headerComponent);
     // this.roomList = [
     //   {
@@ -103,7 +125,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   addRoom() {
 
     const room: RoomList = {
-      roomNumber: 4,
+      roomNumber: '4',
       roomType: 'Private Suite',
       amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
       price: 5000,
@@ -115,7 +137,36 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
     };
     // this.roomList.push(room); 
     //keep the existing data and add new record 
-    this.roomList = [...this.roomList, room];
+    // this.roomList = [...this.roomList, room];
+    this.roomService.addRoom(room).subscribe((data) => {
+      this.roomList = data;
+    });
+
+  }
+  editRoom(){
+    const room: RoomList =
+{
+  roomNumber: '3',
+  roomType: 'Private Suite',
+  amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+  price: 15000,
+  photos: 'https://images.unsplash.com',
+  checkinTime: new Date('11-Nov-2021'),
+  checkoutTime: new Date('12-Nov-2021'),
+  rating: 4.09,
+    };
+    this.roomService.editRoom(room).subscribe((data) => {
+      this.roomList = data;
+    })
   }
 
+  deleteRoom(){
+    this.roomService.deleteRoom('3').subscribe((data) => {
+      this.roomList = data;
+    })
+  }
 }
+
+// getDATA -> addData -> getDATA
+
+// getDATA -> continuous stram of data -> addDATA

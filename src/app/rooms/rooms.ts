@@ -9,7 +9,7 @@ export interface Room {
 //        totalRooms? : number;     */
 
 export interface RoomList {
-    roomNumber: number;
+    roomNumber?: string;
     roomType: string;
     amenities: string;
     price: number;
