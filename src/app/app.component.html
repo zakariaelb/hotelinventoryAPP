@@ -1,4 +1,4 @@
-<!-- <digiplus-app-rooms></digiplus-app-rooms>  -->
+<!-- <digiplus-app-rooms></digiplus-app-rooms> 
 
 <div [ngSwitch]="role">
     <div *ngSwitchCase="'User'">
@@ -6,7 +6,7 @@
     </div>
     <div *ngSwitchCase="'Admin'">
         Welcome Admin ...
-        <!-- <digiplus-app-rooms></digiplus-app-rooms> -->
+        <digiplus-app-rooms></digiplus-app-rooms>
         <digiplus-app-container>
             <digiplus-app-rooms></digiplus-app-rooms>
             <digiplus-app-employee></digiplus-app-employee>
@@ -17,8 +17,21 @@
         you are not authorized to view this page ...
     </div>
 </div>
-<!-- <div>
+ <div>
     <ng-template #user></ng-template>
 </div> -->
+<!-- 
+<div #name></div> --> 
 
-<div #name></div>
+<!-- never do that cause all page ll be reloader against SAP model
+<a href="rooms">rooms</a>
+<a href="employee/">employee</a>
+
+do that instand -->
+
+<!-- <a [routerLink]="'rooms'">rooms</a>
+<a [routerLink]="'employee'">employee</a>
+
+<router-outlet> </router-outlet> -->
+
+<digiplus-app-app-nav></digiplus-app-app-nav>

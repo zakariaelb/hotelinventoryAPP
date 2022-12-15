@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, Inject, inject, OnInit, Optional,
 import { LoggerService } from './logger.service';
 import { RoomsComponent } from './rooms/rooms.component';
 import {LocalStorageToken} from'./localstorage.token';
+import { InitService } from './init.service';
 
 @Component({
   selector: 'digiplus-app-root',
@@ -17,8 +18,11 @@ export class AppComponent implements OnInit {
   role = 'Admin';
 
   @ViewChild('name', {static: true}) name!: ElementRef;
+
   constructor(@Optional() private loggerService: LoggerService, @Inject(LocalStorageToken) 
-  private localStorage: Storage){}
+  private localStorage: Storage,
+  private initServices: InitService
+  ){ console.log(initServices.config);}
 
   ngOnInit(){
 
