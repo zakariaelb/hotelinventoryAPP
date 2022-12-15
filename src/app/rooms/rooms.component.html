@@ -7,7 +7,7 @@
 <digiplus-app-header></digiplus-app-header>
 <digiplus-app-header></digiplus-app-header>
 <digiplus-app-header></digiplus-app-header>
-
+<!-- {{rooms$ |async|json}} -->
 
 <div [hidden]="hideRooms">
     Number of Room :
@@ -28,14 +28,28 @@
 <div>
     <button (click)="addRoom()">Add</button>
 </div>
+<h1>
+    Number of rooms : {{roomCount$| async}} 
+</h1>
 
+<h1>
+    {{getError$| async}}
+</h1>
 <div *ngIf="rooms.availableRooms > 0">
     
 <!-- <div *ngIf="hideRooms"> -->
-    <digiplus-app-rooms-list [rooms]="roomList" [title]="title" 
+    <!-- <digiplus-app-rooms-list [rooms]="roomList" [title]="title" 
     (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
+</div> -->
+<div *ngIf="rooms$|async as rooms"></div>
+
+<digiplus-app-rooms-list [rooms]="rooms" [title]="title" 
+(selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
 </div>
 
 <button (click)="toggle()">Toggle</button>
 <button (click)="editRoom()">Edit</button>
 <button (click)="deleteRoom()">Delete</button>
+<h1>
+    {{totalBytes}} loaded ...
+</h1>

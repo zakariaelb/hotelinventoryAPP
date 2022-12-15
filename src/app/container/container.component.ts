@@ -6,14 +6,14 @@ import { RoomsService } from '../rooms/services/rooms.service';
   selector: 'digiplus-app-container',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.scss'],
-  providers: [RoomsService]
+  // providers: [RoomsService]
 })
 export class ContainerComponent implements OnInit, AfterContentInit {
 
   @ContentChild(EmployeeComponent) employee! :EmployeeComponent;
 
-  constructor(@Host() private roomService: RoomsService){}
-
+  // constructor(@Host() private roomService: RoomsService){}
+constructor(){}
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
   }  

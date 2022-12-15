@@ -1,7 +1,8 @@
-import { AfterContentChecked, AfterViewInit, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { HttpEventType } from '@angular/common/http';
+import { AfterContentChecked, AfterViewInit, OnDestroy, OnInit, QueryList, SkipSelf, ViewChild, ViewChildren } from '@angular/core';
 import { DoCheck } from '@angular/core';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, Subject, Subscription } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
 import { Room, RoomList } from './rooms';
 import { RoomsService } from './services/rooms.service';
@@ -16,7 +17,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
 
   hotelName = 'Hotel Hilton';
   numberOfRoom = 20;
-  hideRooms = false;
+  hideRooms = true;
 
   selectedRoom!: RoomList;
 
@@ -30,11 +31,11 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   roomList: RoomList[] = [];
 
   stream = new Observable(observer => {
-      observer.next('user 1');
-      observer.next('user 2');
-      observer.next('user 3');
-      observer.complete();
-      // observer.error("error");
+    observer.next('user 1');
+    observer.next('user 2');
+    observer.next('user 3');
+    observer.complete();
+    // observer.error("error");
   });
 
   //@ViewChild(HeaderComponent, {static: true} ) headerComponent!: HeaderComponent;
@@ -43,26 +44,80 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   @ViewChildren(HeaderComponent) headerChildrenComponent!: QueryList<HeaderComponent>;
 
   // not do that roomService = new RoomsService();
+  error: string = '';
 
-  constructor(private roomService: RoomsService){ }
+  totalBytes = 0;
+  subscription!: Subscription;
+
+  error$! = new Subject<string>();
+
+  getError$ = this.error$.asObservable();
+
+
+  // rooms$ = this.roomService.getRooms$;
+  rooms$ = this.roomService.getRooms$.pipe(
+    catchError((err)) => {
+    //console.log(err);
+    this.error$.next(err.message);
+    return of([]);
+  }
+  );
+  roomCount$ = this.roomService.getRooms$.pipe(
+    map((rooms)) => rooms.length()
+  )
+
+  constructor(@SkipSelf() private roomService: RoomsService) { }
   ngOnInit(): void {
 
+    // this.roomService.getPhotos().subscribe((data) => {
+    //     console.log(data);
+    // })
+
+    this.roomService.getPhotos().subscribe((event) => {
+      switch (event.type) {
+
+        case HttpEventType.Sent: {
+          console.log('Request has been sent');
+          break;
+        }
+        case HttpEventType.ResponseHeader: {
+          console.log('Request success');
+          break;
+        }
+        case HttpEventType.DownloadProgress: {
+          this.totalBytes += event.loaded;
+          break;
+        }
+        case HttpEventType.Response: {
+          console.log(event.body);
+          break;
+        }
+
+      }
+
+    })
+
+
     this.stream.subscribe({
-        next: (value) => console.log(value),
-        complete: () => console.log('Stream is completed ... '),
-        error: (err) => console.log(err),
-        
+      next: (value) => console.log(value),
+      complete: () => console.log('Stream is completed ... '),
+      error: (err) => console.log(err),
+
     }
-      );
+    );
+    // old  this.stream.subscribe((data) => console.log(data));
     this.stream.subscribe((data) => console.log(data));
 
     // console.log(this.roomService.getRooms());
-    this.roomService.getRooms.subscribe(rooms =>{
-      this.roomList = rooms;
-    });
-      //console.log(this.headerComponent);
+    // old this.roomService.getRooms.subscribe(rooms =>{
+    // old this.roomService.getRooms$.subscribe(rooms =>{
+    // this.subscription = this.roomService.getRooms$.subscribe(rooms =>{
+    //     this.subscription = this.roomService.getRooms$.subscribe(rooms =>{
+    //   this.roomList = rooms;
+    // });
+    //console.log(this.headerComponent);
     // this.roomList = [
-    //   {
+    //   { 
     //     roomNumber: 1,
     //     roomType: 'Deluxe Room',
     //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
@@ -94,7 +149,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
     //   },
     // ];
 
-    
+
     //get data from service instant of ts file
     this.roomList = this.roomService.getRooms();
   }
@@ -105,7 +160,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
   ngAfterViewInit(): void {
     //console.log(this.headerComponent);
     this.headerComponent.title = "Rooms View";
-    console.log (this.headerChildrenComponent.last.title = "title of last .. ");
+    console.log(this.headerChildrenComponent.last.title = "title of last .. ");
   }
 
   ngAfterContentChecked(): void {
@@ -143,27 +198,33 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
     });
 
   }
-  editRoom(){
+  editRoom() {
     const room: RoomList =
-{
-  roomNumber: '3',
-  roomType: 'Private Suite',
-  amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-  price: 15000,
-  photos: 'https://images.unsplash.com',
-  checkinTime: new Date('11-Nov-2021'),
-  checkoutTime: new Date('12-Nov-2021'),
-  rating: 4.09,
+    {
+      roomNumber: '3',
+      roomType: 'Private Suite',
+      amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+      price: 15000,
+      photos: 'https://images.unsplash.com',
+      checkinTime: new Date('11-Nov-2021'),
+      checkoutTime: new Date('12-Nov-2021'),
+      rating: 4.09,
     };
     this.roomService.editRoom(room).subscribe((data) => {
       this.roomList = data;
     })
   }
 
-  deleteRoom(){
+  deleteRoom() {
     this.roomService.deleteRoom('3').subscribe((data) => {
       this.roomList = data;
     })
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe
+    }
   }
 }
 
