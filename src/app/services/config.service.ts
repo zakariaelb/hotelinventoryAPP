@@ -2,7 +2,7 @@ import { Inject } from '@angular/core';
 import { RouteConfig } from './routeConfig';
 import { RouteConfigToken } from './routeConfig.service';
 
-@Injectable({
+@Inject({
   providedIn: 'any'
 })
 export class ConfigService {
