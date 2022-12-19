@@ -3,6 +3,7 @@ import { LoggerService } from './logger.service';
 import { RoomsComponent } from './rooms/rooms.component';
 import {LocalStorageToken} from'./localstorage.token';
 import { InitService } from './init.service';
+import { ConfigService } from './services/config.service';
 
 @Component({
   selector: 'digiplus-app-root',
@@ -21,8 +22,10 @@ export class AppComponent implements OnInit {
 
   constructor(@Optional() private loggerService: LoggerService, @Inject(LocalStorageToken) 
   private localStorage: Storage,
-  private initServices: InitService
-  ){ console.log(initServices.config);}
+  private initServices: InitService,
+  private configService: ConfigService,
+  ){
+     console.log(initServices.config);}
 
   ngOnInit(){
 

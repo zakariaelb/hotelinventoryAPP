@@ -26,7 +26,7 @@
     {{ selectedRoom |json}}
 </div>
 <div>
-    <button (click)="addRoom()">Add</button>
+    <button routerLink="add">Add</button>
 </div>
 <h1>
     Number of rooms : {{roomCount$| async}} 
@@ -53,3 +53,5 @@
 <h1>
     {{totalBytes}} loaded ...
 </h1>
+
+<router-outlet></router-outlet>

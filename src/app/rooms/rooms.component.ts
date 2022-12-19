@@ -4,6 +4,7 @@ import { DoCheck } from '@angular/core';
 import { Component } from '@angular/core';
 import { catchError, map, Observable, Subject, Subscription } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
+import { ConfigService } from '../services/config.service';
 import { Room, RoomList } from './rooms';
 import { RoomsService } from './services/rooms.service';
 
@@ -56,17 +57,18 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
 
   // rooms$ = this.roomService.getRooms$;
   rooms$ = this.roomService.getRooms$.pipe(
-    catchError((err)) => {
+    catchError((err) => {
     //console.log(err);
     this.error$.next(err.message);
     return of([]);
-  }
+  })
   );
   roomCount$ = this.roomService.getRooms$.pipe(
-    map((rooms)) => rooms.length()
+    map((rooms) => rooms.length())
   )
 
-  constructor(@SkipSelf() private roomService: RoomsService) { }
+  constructor(@SkipSelf() private roomService: RoomsService,
+  private confiService: ConfigService) { }
   ngOnInit(): void {
 
     // this.roomService.getPhotos().subscribe((data) => {
@@ -113,41 +115,41 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
     // old this.roomService.getRooms$.subscribe(rooms =>{
     // this.subscription = this.roomService.getRooms$.subscribe(rooms =>{
     //     this.subscription = this.roomService.getRooms$.subscribe(rooms =>{
-    //   this.roomList = rooms;
-    // });
-    //console.log(this.headerComponent);
-    // this.roomList = [
-    //   { 
-    //     roomNumber: 1,
-    //     roomType: 'Deluxe Room',
-    //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-    //     price: 500,
-    //     photos: 'https://images.unsplash.com',
-    //     checkinTime: new Date('11-Nov-2021'),
-    //     checkoutTime: new Date('12-Nov-2021'),
-    //     rating: 4.90,
-    //   },
-    //   {
-    //     roomNumber: 2,
-    //     roomType: 'Deluxe Room',
-    //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-    //     price: 1000,
-    //     photos: 'https://images.unsplash.com',
-    //     checkinTime: new Date('11-Nov-2021'),
-    //     checkoutTime: new Date('12-Nov-2021'),
-    //     rating: 4.99,
-    //   },
-    //   {
-    //     roomNumber: 3,
-    //     roomType: 'Private Suite',
-    //     amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
-    //     price: 15000,
-    //     photos: 'https://images.unsplash.com',
-    //     checkinTime: new Date('11-Nov-2021'),
-    //     checkoutTime: new Date('12-Nov-2021'),
-    //     rating: 4.09,
-    //   },
-    // ];
+      this.roomList = rooms;
+     });
+    console.log(this.headerComponent);
+     this.roomList = [
+       { 
+         roomNumber: 1,
+         roomType: 'Deluxe Room',
+         amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+         price: 500,
+         photos: 'https://images.unsplash.com',
+         checkinTime: new Date('11-Nov-2021'),
+         checkoutTime: new Date('12-Nov-2021'),
+         rating: 4.90,
+       },
+       {
+         roomNumber: 2,
+         roomType: 'Deluxe Room',
+         amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+         price: 1000,
+         photos: 'https://images.unsplash.com',
+         checkinTime: new Date('11-Nov-2021'),
+         checkoutTime: new Date('12-Nov-2021'),
+         rating: 4.99,
+       },
+       {
+         roomNumber: 3,
+         roomType: 'Private Suite',
+         amenities: 'Air conditioner, Free Wi-fi, TV, Bathroom, Kitchen',
+         price: 15000,
+         photos: 'https://images.unsplash.com',
+         checkinTime: new Date('11-Nov-2021'),
+         checkoutTime: new Date('12-Nov-2021'),
+         rating: 4.09,
+       },
+     ];
 
 
     //get data from service instant of ts file
@@ -226,7 +228,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
       this.subscription.unsubscribe
     }
   }
-}
+
 
 // getDATA -> addData -> getDATA
 

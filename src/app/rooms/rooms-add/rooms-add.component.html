@@ -9,7 +9,7 @@
 <div *ngIf="successMessage !== '' " class="alert alert-success">
 {{successMessage}}
 </div>
-<form #roomsForm = "ngForm" (ngSubmit)="addRoom()">
+<form #roomsForm = "ngForm" (ngSubmit)="addRoom(roomsForm)">
 <div class ="form-group">
     <input 
     required

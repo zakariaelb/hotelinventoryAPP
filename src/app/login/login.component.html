@@ -1,0 +1,21 @@
+<form>
+    <div class="form-group">
+        <!-- <input digiplusAppHover color="green" type="email" class="form-control" name="name" [(ngModel)]="email"
+        placeholder="Enter your email" > or --> 
+        <input #emailControl="ngModel" digiplusAppEmailvalidator digiplusAppHover="green" type="email" class="form-control" name="name" [(ngModel)]="email"
+        placeholder="Enter your email" >
+        <div>
+            {{emailControl.errors| json}}
+        </div>
+    </div>
+    <div class="form-group">
+        <input digiplusAppHover color="steelblue" type="password" class="form-control" name="password" [(ngModel)]="password"
+        placeholder="Enter your password" >
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primay" (click)="Login()">
+            Login
+        </button>
+    </div>
+    
+</form>
