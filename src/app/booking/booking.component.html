@@ -1,1 +1,94 @@
 <p>booking works!</p>
+{{bookingForm.value| json }}
+{{bookingForm.pristine| json }}
+{{bookingForm.dirty| json }}
+
+<form [formGroup]="bookingForm" (ngSubmit)="addBooking()"> 
+    <mat-form-field class="example-full-width">
+        <mat-label>Guest Name</mat-label>
+        <input type="text" matInput formControlName="guestName" placeholder="Guest Name" value="">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Room Id</mat-label>
+        <input type="number" matInput formControlName="roomId" placeholder="Room Id" value="">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Guest E-mail</mat-label>
+        <input type="email" matInput formControlName="guestEmail" placeholder="Guest Email" value="">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-form-field appearance="fill">
+            <mat-label>Checkin date</mat-label>
+            <input matInput [matDatepicker]="picker" formArrayName="checkInDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-form-field appearance="fill">
+                <mat-label>CheckOut date</mat-label>
+                <input matInput [matDatepicker]="picker" formArrayName="checkOutDate">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <div formGroupName="address"> 
+            <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Address
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                    
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Address line 2</mat-label>
+                        <input type="text" matInput formControlName="AddressLine1" placeholder="Address line 1" value="">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Address line 2</mat-label>
+                        <input type="text" matInput formControlName="AddressLine2" placeholder="Address line 2" value="">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>City</mat-label>
+                        <input type="text" matInput formControlName="City" placeholder="City" value="">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>State</mat-label>
+                        <input type="number" matInput formControlName="State" placeholder="State" value="">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Country</mat-label>
+                        <input type="text" matInput formControlName="Country" placeholder="Country" value="">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>ZipCode</mat-label>
+                        <input type="number" matInput formControlName="ZipCode" placeholder="ZipCode" value="">
+                    </mat-form-field>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+                    <div>
+                        <button type="button" mat-raised-button color="primary" (click)="addGuest()">Add Geust</button>
+                    </div>            
+<div>
+    <button mat-raised-button color="primary">Submit</button>
+</div>
+
+            guestEmail: String,
+            // : Date,
+            // checkOutDate: Date,
+            // bookingStatus: String,
+            // bookingAmount: Number,
+            // bookingDate: Date,
+            // mobileNumber: Number,
+            // guestName: String,
+            // guestAddress: String,
+            // guestCity: String,
+            // guestState: String,
+            // guestCountry: String,
+            // guestZipCode: Number,
+            // guestCount: Number,
+            // guestList: Guest[],
+
+</form>
