@@ -70,7 +70,34 @@
             </div>
                     <div>
                         <button type="button" mat-raised-button color="primary" (click)="addGuest()">Add Geust</button>
-                    </div>            
+                    </div>    
+                    
+                    <div formArrayName="guests">
+                        <div *ngFor="let guest of guests.controls; let i=index">
+                            <div [formControlName]="i">
+                                <mat-form-field>
+                                    <input 
+                                    type="text"
+                                    matInput
+                                    formControlName="guestName"
+                                    placeholder="Guest Name"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input 
+                                    type="number"
+                                    matInput
+                                    formControlName="age"
+                                    placeholder="Guest Age"
+                                    />
+                                </mat-form-field>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
 <div>
     <button mat-raised-button color="primary">Submit</button>
 </div>
