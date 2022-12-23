@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { ConfigService } from '../services/config.service';
 
 
@@ -45,15 +45,15 @@ export class BookingComponent implements OnInit {
 
       //this is a shortcut from this      roomId: new FormControl{''};
       //roomId: [''],
-      roomId: new FormControl({value:"2", disabled: true })
-      guestEmail: [''],
+      roomId: new FormControl({value:"2", disabled: true}, {validators: [Validators.required]}),
+      guestEmail: ['', [Validators.required, Validators.email]],
       checkInDate: [''],
       checkOutDate: [''],
       bookingStatus: [''],
       bookingAmount: [''],
       bookingDate: [''],
       mobileNumber: [''],
-      guestName: [''],
+      guestName: ['', [Validators.required, Validators.minLength(3)]],
       // guestAddress: [''],
       // guestCity: [''],
       // guestState: [''],
@@ -72,15 +72,12 @@ export class BookingComponent implements OnInit {
 
       }),
       //guestList: Guest[],
-      Guests: this.fb.array([
-        this.fb.group({
-          guestName: [''],
-          age: new FormControl(''),
-        })
-      ]),
-
-
-
+      Guests: this.fb.array([this.addGuestControl()]),
+      tnc: new FormControl(false, {validators: [Validators.required]}),
+        // this.fb.group({
+        //   guestName: [''],
+        //   age: new FormControl(''),
+        // })
     })
   }
 
@@ -92,15 +89,37 @@ export class BookingComponent implements OnInit {
   }
 
   addGuest(){
-      this.guests.push(
+      this.guests.push(this.addGuestControl());
 
-        this.fb.group({
-          guestName: [''],
-          age: new FormControl(''),
-        })
-
-      );
+        // this.fb.group({
+        //   guestName: [''],
+        //   age: new FormControl(''),
+        // })
+        //instend
+        
   }
+
+  addGuestControl(){
+
+    return this.fb.group({guestName: [''], age: new FormControl(''),})
+  }
+
+  addPassport(){
+    this.bookingForm.addControl('passport', new FormControl(''));
+  }
+
+  deletePassport(){
+    if(this.bookingForm.get('passport')){
+          this.bookingForm.removeControl('passport');
+    };
+  }
+
+  removeGuest(i: number){
+
+    this.guests.removeAt(i);
+  }
+
+
 }
 
 // export class booking (){
