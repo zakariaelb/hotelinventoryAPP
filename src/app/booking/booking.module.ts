@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -34,6 +35,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatExpansionModule,
     MatIconModule,
     MatCheckboxModule,
+    HttpClientModule
     
   ]
 })

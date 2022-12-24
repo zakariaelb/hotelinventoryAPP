@@ -17,6 +17,7 @@
         type="text" 
         name="roomType" 
         [(ngModel)] = "room.roomType"
+        [ngModelOptions]="{ updateOn:'blur' }"
         placeholder="Room Type"/>
 </div>
 <div class ="form-group">
