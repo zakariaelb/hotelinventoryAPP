@@ -2,6 +2,7 @@ import { HttpEventType } from '@angular/common/http';
 import { AfterContentChecked, AfterViewInit, OnDestroy, OnInit, QueryList, SkipSelf, ViewChild, ViewChildren } from '@angular/core';
 import { DoCheck } from '@angular/core';
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { catchError, map, Observable, Subject, Subscription } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
 import { ConfigService } from '../services/config.service';
@@ -63,9 +64,10 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterCont
     return of([]);
   })
   );
-  roomCount$ = this.roomService.getRooms$.pipe(
-    map((rooms) => rooms.length())
-  )
+
+  priceFilter = new FormControl(0);
+
+  roomCount$ = this.roomService.getRooms$.pipe(map((rooms) => rooms.length))
 
   constructor(@SkipSelf() private roomService: RoomsService,
   private confiService: ConfigService) { }

@@ -3,10 +3,14 @@
 {{bookingForm.pristine| json }}
 {{bookingForm.dirty| json }}
 
+
+{{bookingForm.invalid |json}}
+{{bookingForm.valid |json}}
+
 <!-- add passport  -->
 
 <div>
-    <button type="button" mat-raised-button color="primary" addPassport()>Add passport</button>
+    <button type="button" mat-raised-button color="primary" (click)="addPassport"()>Add passport</button>
 </div>
 <!-- delete passport  -->
 <div>
@@ -25,6 +29,8 @@
     <mat-form-field class="example-full-width">
         <mat-label>Guest Name</mat-label>
         <input type="text" matInput formControlName="guestName" placeholder="Guest Name" value="">
+        {{bookingForm.get('guestName')?.errors | json}}
+
         <mat-error *ngIf="bookingForm.get('guestName')?.hasError('minLength')">
 
             Guest Name should be minimum 3 chars !!
@@ -53,7 +59,8 @@
                 <input matInput [matDatepicker]="picker" formArrayName="checkOutDate">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker #checkOut></mat-datepicker>
+                {{bookingForm.get('checkOutDate')?.errors |json}}
             </mat-form-field>
             <div formGroupName="address">
                 <mat-accordion>

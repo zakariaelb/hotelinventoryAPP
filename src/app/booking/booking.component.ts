@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { exhaustMap, mergeMap, switchMap } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 import { BookingService } from './booking.service';
+import { CustomValidators } from './validators/custom-validators';
 
 
 @Component({
@@ -20,11 +22,12 @@ export class BookingComponent implements OnInit {
   }
 
   constructor(private bookingService: BookingService,  private configService: ConfigService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
+    const roomId = this.route.snapshot.paramMap.get('roomId');
 
     this.bookingForm = this.fb.group({
 
@@ -47,7 +50,7 @@ export class BookingComponent implements OnInit {
 
       //this is a shortcut from this      roomId: new FormControl{''};
       //roomId: [''],
-      roomId: new FormControl({ value: "2", disabled: true }, { validators: [Validators.required] }),
+      roomId: new FormControl({ value: roomId, disabled: true }, { validators: [Validators.required] }),
       // guestEmail: ['', [Validators.required, Validators.email]],
       guestEmail: ['', {
         updateOn: 'blur',
@@ -63,7 +66,8 @@ export class BookingComponent implements OnInit {
         updateOn: 'blur',
       }
     ],
-      guestName: ['', [Validators.required, Validators.minLength(3)]],
+      guestName: ['', [Validators.required, Validators.minLength(3), CustomValidators.validateName,
+      CustomValidators.validSpecailChar('*') ]],
       // guestAddress: [''],
       // guestCity: [''],
       // guestState: [''],
@@ -83,15 +87,16 @@ export class BookingComponent implements OnInit {
       }),
       //guestList: Guest[],
       Guests: this.fb.array([this.addGuestControl()]),
-      tnc: new FormControl(false, { validators: [Validators.requiredTrue] },),
+      tnc: new FormControl(false, { validators: [Validators.requiredTrue] }),},
+       { updateOn:'blur', Validators: [CustomValidators.validateDate] });
+       
       // this.fb.group({
       //   guestName: [''],
       //   age: new FormControl(''),
       // })
-    },
-    {
-      updateOn: 'blur',
-    })
+    // {
+    //   updateOn: 'blur',
+    // }
 
     this.getBookingData();
     // this.bookingForm.valueChanges.subscribe((data) => {
@@ -123,7 +128,7 @@ export class BookingComponent implements OnInit {
       console.log(data);      
     });
      this.bookingForm.reset({
-       roomId: '',
+      //  roomId: '',
        guestEmail: '',
        checkInDate: '',
        checkOutDate: '',

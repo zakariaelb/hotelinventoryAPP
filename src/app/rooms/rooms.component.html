@@ -28,10 +28,15 @@
 <div>
     <button routerLink="add">Add</button>
 </div>
+
+
 <h1>
     Number of rooms : {{roomCount$| async}} 
 </h1>
-
+<!-- for dev  --> {{priceFilter | json}}
+<div>
+    <input type="number" class="form-control" placeholder="Price" [formControl]="priceFilter" >
+</div>
 <h1>
     {{getError$| async}}
 </h1>
@@ -41,9 +46,9 @@
     <!-- <digiplus-app-rooms-list [rooms]="roomList" [title]="title" 
     (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
 </div> -->
-<div *ngIf="rooms$|async as rooms"></div>
+<div *ngIf="rooms$| async as rooms"></div>
 
-<digiplus-app-rooms-list [rooms]="rooms" [title]="title" 
+<digiplus-app-rooms-list [rooms]="rooms" [price]="priceFilter.value" [title]="title" 
 (selectedRoom)="selectRoom($event)"></digiplus-app-rooms-list>
 </div>
 
